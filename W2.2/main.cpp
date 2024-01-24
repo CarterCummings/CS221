@@ -13,6 +13,10 @@ public:
 
     T* operator->() { return ptr; }
  
+    ~SmartPointer() {
+        delete ptr;
+    }
+
 };
 
 #ifndef TEST
