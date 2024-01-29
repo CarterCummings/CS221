@@ -13,9 +13,7 @@ public:
 
     T* operator->() { return ptr; }
  
-    ~SmartPointer() {
-        delete ptr;
-    }
+    ~SmartPointer() { delete ptr; }
 
 };
 
