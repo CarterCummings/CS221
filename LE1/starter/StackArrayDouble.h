@@ -34,48 +34,89 @@ public:
 
 template <typename T>
 StackArrayDouble<T>::StackArrayDouble(){
-
+    // Setting 1 to the be starting stack size 
+    data = new T[1];
+    length = 1;
+    topIndex = 0;
 }
 
 template <typename T>
 StackArrayDouble<T>::~StackArrayDouble(){
-
+    delete[] data;
 }
 
 template <typename T>
 StackArrayDouble<T>::StackArrayDouble(const StackArrayDouble& other) {
-    
+    data = new T[length];
+    for (int i = 0; i <= topIndex; ++i) {
+        data[i] = other.data[i];
+    }
 }
 
 template <typename T>
 StackArrayDouble<T>& StackArrayDouble<T>::operator=(const StackArrayDouble& other) {
+    if (this != &other) {
+            delete[] data;
+
+            length = other.length;
+            topIndex = other.topIndex;
+
+            data = new T[length];
+            for (int i = 0; i <= topIndex; ++i) {
+                data[i] = other.data[i];
+            }
+        }
     return *this;
 }
 
 template <typename T>
 bool StackArrayDouble<T>::isEmpty(){
-    return true;
+    return topIndex == -1;
 }
 
 template <typename T>
 int StackArrayDouble<T>::size(){
-    return -1;
+    return topIndex + 1;
 }
 
 template <typename T>
 T& StackArrayDouble<T>::top(){
-    static int temp = -1;
-    return temp;
+    if (isEmpty()) { 
+        throw std::out_of_range("its empty");
+    }
+    return data[topIndex];
 }
 
 template <typename T>
 T StackArrayDouble<T>::pop(){
-    return -1;
+    if (isEmpty()) {
+            throw std::out_of_range("its empty");
+            return data[topIndex]; 
+        }
+
+    T element = data[topIndex--];
+
+    return element;
 }
 
 template <typename T>
 void StackArrayDouble<T>::push(const T& e){
+    if (topIndex == length - 1) {
+            // If the stack is full, double its capacity
+            T* newData = new T[length*2];
 
+            // Copy existing elements to the new array
+            for (int i = 0; i <= topIndex; ++i) {
+                newData[i] = data[i];
+            }
+
+            // Update length and swap the arrays
+            length = length*2;
+            delete[] data;
+            data = newData;
+        }
+
+        data[++topIndex] = e;
 }
 
 #endif

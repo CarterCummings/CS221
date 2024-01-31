@@ -5,6 +5,15 @@ using namespace std;
 #include "StackArrayLinear.h"
 
 int main() {
-    // Write your own tests here
+    StackArrayDouble<int> stack;
+
+    // Testing the dynamic stack
+    for (int i = 1; i <= 10; ++i) {
+        stack.push(i);
+    }
+
+    while (!stack.isEmpty()) {
+        std::cout << stack.pop() << " ";
+    }
     return 0;
 }
