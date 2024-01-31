@@ -15,5 +15,15 @@ int main() {
     while (!stack.isEmpty()) {
         std::cout << stack.pop() << " ";
     }
+    stack.push(1);
+    stack.pop();
+    for (int i = 1; i <= 100000; ++i) {
+        stack.push(i);
+    }
+    std::cout << endl << stack.size() << endl;
+
     return 0;
+
+
+    
 }

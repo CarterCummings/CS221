@@ -71,18 +71,18 @@ StackArrayDouble<T>& StackArrayDouble<T>::operator=(const StackArrayDouble& othe
 
 template <typename T>
 bool StackArrayDouble<T>::isEmpty(){
-    return topIndex == -1;
+    return topIndex == 0;
 }
 
 template <typename T>
 int StackArrayDouble<T>::size(){
-    return topIndex + 1;
+    return topIndex;
 }
 
 template <typename T>
 T& StackArrayDouble<T>::top(){
     if (isEmpty()) { 
-        throw std::out_of_range("its empty");
+        throw std::out_of_range("it is empty");
     }
     return data[topIndex];
 }
@@ -90,7 +90,7 @@ T& StackArrayDouble<T>::top(){
 template <typename T>
 T StackArrayDouble<T>::pop(){
     if (isEmpty()) {
-            throw std::out_of_range("its empty");
+            throw std::out_of_range("it is empty");
             return data[topIndex]; 
         }
 
@@ -102,6 +102,7 @@ T StackArrayDouble<T>::pop(){
 template <typename T>
 void StackArrayDouble<T>::push(const T& e){
     if (topIndex == length - 1) {
+            
             // If the stack is full, double its capacity
             T* newData = new T[length*2];
 
@@ -114,6 +115,7 @@ void StackArrayDouble<T>::push(const T& e){
             length = length*2;
             delete[] data;
             data = newData;
+            // std::cout << length << endl;
         }
 
         data[++topIndex] = e;

@@ -22,6 +22,8 @@ int testStackPush(AbstractStack<int> *s){
         s->push(randomNumber);
     }
     
+
+    //cout << s->size() << " != " << projectedSize << endl;
     if(s->size() != projectedSize){
         return 0;
     }

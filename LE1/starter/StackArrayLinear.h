@@ -70,12 +70,12 @@ StackArrayLinear<T>& StackArrayLinear<T>::operator=(const StackArrayLinear& othe
 
 template <typename T>
 bool StackArrayLinear<T>::isEmpty(){
-    return topIndex == -1;
+    return topIndex == 0;
 }
 
 template <typename T>
 int StackArrayLinear<T>::size(){
-    return topIndex + 1;
+    return topIndex;
 }
 
 template <typename T>
@@ -85,21 +85,21 @@ T& StackArrayLinear<T>::top(){
     if (isEmpty()) { 
         throw std::out_of_range("its empty");
     }
-    temp = data[topIndex];
+    return data[topIndex];
 
-    return temp;
+    //return temp;
 }
 
 template <typename T>
 T StackArrayLinear<T>::pop(){
     if (isEmpty()) {
             throw std::out_of_range("its empty");
-            return data[topIndex]; 
+            return data[topIndex];
         }
 
-    T element = data[topIndex--];
+    T e = data[topIndex--];
 
-    return element;
+    return e;
 }
 
 template <typename T>
