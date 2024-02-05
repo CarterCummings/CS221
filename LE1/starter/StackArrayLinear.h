@@ -31,6 +31,7 @@ public:
 };
 
 // Your implementation here
+
 template <typename T>
 StackArrayLinear<T>::StackArrayLinear(){
     // Setting 1 to the be starting stack size 
@@ -46,7 +47,10 @@ StackArrayLinear<T>::~StackArrayLinear(){
 
 template <typename T>
 StackArrayLinear<T>::StackArrayLinear(const StackArrayLinear& other) {
+    length = other.length;
     data = new T[length];
+    topIndex = other.topIndex;
+
     for (int i = 0; i <= topIndex; ++i) {
         data[i] = other.data[i];
     }

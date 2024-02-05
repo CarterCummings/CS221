@@ -47,7 +47,10 @@ StackArrayDouble<T>::~StackArrayDouble(){
 
 template <typename T>
 StackArrayDouble<T>::StackArrayDouble(const StackArrayDouble& other) {
+    length = other.length;
     data = new T[length];
+    topIndex = other.topIndex;
+
     for (int i = 0; i <= topIndex; ++i) {
         data[i] = other.data[i];
     }
