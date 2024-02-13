@@ -88,7 +88,6 @@ StackLinkedList<T>& StackLinkedList<T>::operator=(const StackLinkedList& other) 
 
             while (currentOther != nullptr) {
                 Node<T>* newNode = new Node<T>{currentOther->data};
-;
                 if (lastNewNode == nullptr) {
                     head = newNode;
                 } else {
@@ -104,18 +103,13 @@ StackLinkedList<T>& StackLinkedList<T>::operator=(const StackLinkedList& other) 
 
 template <typename T>
 bool StackLinkedList<T>::isEmpty(){
+    //std::cout << "head: " << head << endl;
     return head == nullptr;
 }
 
 template <typename T>
 int StackLinkedList<T>::size(){
-        int count = 0;
-        Node<T>* current = head;
-        while (current != nullptr) {
-            count++;
-            current = current->next;
-        }
-        return count;
+        return length;
 }
 
 template <typename T>
@@ -133,20 +127,34 @@ T StackLinkedList<T>::pop(){
             throw std::out_of_range("Stack underflow");
         }
 
-        T e = head->data;
+        T elem = head->data;
         Node<T>* temp = head;
         head = head->next;
         delete temp;
         length--;
-        return e;
+        return elem;
 }
 
 template <typename T>
 void StackLinkedList<T>::push(const T& e){
-    Node<T>* newNode = new Node<T>{e};
-        head->next = head;
+    if(isEmpty()) {
+        head = new Node<T>{e};
+        head->next = nullptr;
+        
+    } else {
+        
+        Node<T>* newNode = new Node<T>{e};
+        newNode->next = head;
         head = newNode;
-        length++;
+
+        
+    }
+    
+    //std::cout << "push head: " << head << endl;
+    //std::cout << "push next: " << head->next << endl;
+
+
+    ++length;
 }
 
 

@@ -67,19 +67,23 @@ Type Deque<Type>::last() {
 
 template <class Type>
 void Deque<Type>::insertFirst(Type o) {
+	s++;
 }
 
 template <class Type>
 void Deque<Type>::insertLast(Type o) {
+	s++;
 }
 
 template <class Type>
 Type Deque<Type>::removeFirst() {
+	s--;
 	return Type();
 }
 
 template <class Type>
 Type Deque<Type>::removeLast() {
+	s--;
 	return Type();
 }
 
