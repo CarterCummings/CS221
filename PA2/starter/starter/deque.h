@@ -30,10 +30,24 @@ public:
 
 template <class Type>
 Deque<Type>::Deque() {
+	s = 0;
+	firstNode = nullptr;
+	lastNode = nullptr;
 }
 
 template <class Type>
 Deque<Type>::~Deque() {
+	while(!isEmpty()) 
+	{
+		Node<Type>* tempNode = firstNode;
+		if (s > 1) {
+		firstNode = firstNode->getNext();
+		firstNode->setPrev(nullptr);
+		}
+		delete tempNode;
+		
+		s--;
+	}
 }
 
 template <class Type>
@@ -47,44 +61,96 @@ Deque<Type>& Deque<Type>::operator=(const Deque& other) {
 
 template <class Type>
 bool Deque<Type>::isEmpty() {
-	return false;
+	return s == 0;
 }
 
 template <class Type>
 int Deque<Type>::size() {
-	return -1;
+	return s;
 }
 
 template <class Type>
 Type Deque<Type>::first() {
-	return Type();
+	//cout << "first data: " << firstNode->getData() << endl; 
+	return firstNode->getData();
 }
 
 template <class Type>
 Type Deque<Type>::last() {
-	return Type();
+	return lastNode->getData();
 }
 
 template <class Type>
-void Deque<Type>::insertFirst(Type o) {
+void Deque<Type>::insertFirst(Type o) {	
+	if(isEmpty()) 
+	{
+		firstNode = new Node<Type>(o);
+	} else 
+	{
+		Node<Type>* newNode = new Node<Type>(o);
+		newNode->setNext(firstNode);
+		firstNode->setPrev(newNode);
+		firstNode = newNode;
+		if (lastNode == nullptr) {
+			lastNode = newNode->getNext();
+		}
+		//cout << firstNode->getData() << endl;
+	}
 	s++;
 }
 
 template <class Type>
 void Deque<Type>::insertLast(Type o) {
+	if(isEmpty()) 
+	{
+		firstNode = new Node<Type>(o);
+	} else if (s == 1) {
+		lastNode = new Node<Type>(o);
+		lastNode->setPrev(firstNode);
+		firstNode->setNext(lastNode);
+	} else 
+	{
+		
+		Node<Type>* newNode = new Node<Type>(o);
+		
+		newNode->setPrev(lastNode);
+		lastNode->setNext(newNode);
+		lastNode = newNode;
+		
+	}
 	s++;
 }
 
 template <class Type>
 Type Deque<Type>::removeFirst() {
+	if(isEmpty()){
+		throw std::out_of_range("Stack empty");
+	}
+	Type elem = firstNode->getData();
+	Node<Type>* tempNode = firstNode;
+	firstNode = tempNode->getNext();
+	firstNode->setPrev(nullptr); 
+	delete tempNode;
 	s--;
-	return Type();
+	return elem;
 }
 
 template <class Type>
 Type Deque<Type>::removeLast() {
+	if(isEmpty())
+	{
+		throw std::out_of_range("Stack empty");
+	} else if (s < 1) 
+	{
+		throw std::out_of_range("Only 1 element");
+	}
+	Type elem = lastNode->getData();
+	Node<Type>* tempNode = lastNode;
+	lastNode = tempNode->getPrev();
+	lastNode->setNext(nullptr); 
+	delete tempNode;
 	s--;
-	return Type();
+	return elem;
 }
 
 #endif

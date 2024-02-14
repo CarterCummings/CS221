@@ -10,8 +10,9 @@ int main() {
         q.insertFirst(2);
         q.insertFirst(1);
 
+        //cout << q.last() << endl;
+
         // Now the deque should be [1, 2, 3]
-        
         if (q.size() != 3) {
             cout << "Test insertFirst failed: Incorrect size" << endl;
             
@@ -26,13 +27,13 @@ int main() {
     
     // Test insertLast
     {
+
         Deque<int> q;
         q.insertLast(1);
         q.insertLast(2);
         q.insertLast(3);
         
         // Now the deque should be [1, 2, 3]
-        
         if (q.size() != 3) {
             cout << "Test insertLast failed: Incorrect size" << endl;
         } else if (q.first() != 1 || q.last() != 3) {
