@@ -52,10 +52,24 @@ Deque<Type>::~Deque() {
 
 template <class Type>
 Deque<Type>::Deque(const Deque& other) {
+	// TODO : made this
 }
 
 template <class Type>
 Deque<Type>& Deque<Type>::operator=(const Deque& other) {
+	while(!isEmpty()) 
+	{
+		Node<Type>* tempNode = firstNode;
+		if (s > 1) {
+		firstNode = firstNode->getNext();
+		firstNode->setPrev(nullptr);
+		}
+		delete tempNode;
+		
+		s--;
+	}
+	// TODO : made this
+	
 	return *this;
 }
 
