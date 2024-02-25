@@ -40,36 +40,86 @@ Deque<Type>::~Deque() {
 	while(!isEmpty()) 
 	{
 		Node<Type>* tempNode = firstNode;
-		if (s > 1) {
 		firstNode = firstNode->getNext();
-		firstNode->setPrev(nullptr);
-		}
 		delete tempNode;
-		
 		s--;
 	}
+	firstNode = nullptr;
+	lastNode = nullptr;
 }
 
 template <class Type>
 Deque<Type>::Deque(const Deque& other) {
-	// TODO : made this
+	s = 0;
+	firstNode = nullptr;
+	lastNode = nullptr;
+	Node<Type>* currNode = other.firstNode;
+	Node<Type>* prevNode = nullptr;
+
+	while (currNode != nullptr) {
+		Node<Type>* newNode = new Node<Type>{currNode->getData()};
+		if (prevNode != nullptr) {
+			prevNode->setNext(newNode);
+			currNode->setPrev(prevNode);
+		}
+		if (prevNode == nullptr) {
+			firstNode = newNode;
+		}
+
+		prevNode = newNode;
+		currNode = currNode->getNext();
+
+		if (currNode == nullptr) {
+			lastNode = prevNode;
+		}
+		
+		s++;
+	}
 }
 
 template <class Type>
 Deque<Type>& Deque<Type>::operator=(const Deque& other) {
-	while(!isEmpty()) 
-	{
-		Node<Type>* tempNode = firstNode;
-		if (s > 1) {
-		firstNode = firstNode->getNext();
-		firstNode->setPrev(nullptr);
-		}
-		delete tempNode;
-		
-		s--;
+    if (this != &other) {
+        while (!isEmpty()) {
+			Node<Type>* tempNode = firstNode;
+			if (s > 1) {
+			firstNode = firstNode->getNext();
+			firstNode->setPrev(nullptr);
+			}
+			delete tempNode;
+			s--;
+        }
 	}
-	// TODO : made this
-	
+	firstNode = nullptr;
+	lastNode = nullptr;
+
+	Node<Type>* currNode = other.firstNode;
+	Node<Type>* prevNode = nullptr;
+
+	while (currNode != nullptr) {
+		Node<Type>* newNode = new Node<Type>{currNode->getData()};
+
+
+		if (prevNode != nullptr) {
+			prevNode->setNext(newNode);
+			currNode->setPrev(prevNode);
+		}
+		if (prevNode == nullptr) {
+			firstNode = newNode;
+		}
+
+		prevNode = newNode;
+		currNode = currNode->getNext();
+
+
+
+		if (currNode == nullptr) {
+			lastNode = prevNode;
+		}
+		
+		s++;
+	}
+
 	return *this;
 }
 
@@ -85,7 +135,6 @@ int Deque<Type>::size() {
 
 template <class Type>
 Type Deque<Type>::first() {
-	//cout << "first data: " << firstNode->getData() << endl; 
 	return firstNode->getData();
 }
 
@@ -108,7 +157,6 @@ void Deque<Type>::insertFirst(Type o) {
 		if (lastNode == nullptr) {
 			lastNode = newNode->getNext();
 		}
-		//cout << firstNode->getData() << endl;
 	}
 	s++;
 }
