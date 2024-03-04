@@ -33,6 +33,7 @@ Deque<Type>::Deque() {
 	s = 0;
 	firstNode = nullptr;
 	lastNode = nullptr;
+	
 }
 
 template <class Type>
@@ -90,6 +91,7 @@ Deque<Type>& Deque<Type>::operator=(const Deque& other) {
 			s--;
         }
 	}
+	s = 0;
 	firstNode = nullptr;
 	lastNode = nullptr;
 
@@ -125,7 +127,7 @@ Deque<Type>& Deque<Type>::operator=(const Deque& other) {
 
 template <class Type>
 bool Deque<Type>::isEmpty() {
-	return s == 0;
+	return s <= 0;
 }
 
 template <class Type>
@@ -191,7 +193,9 @@ Type Deque<Type>::removeFirst() {
 	Type elem = firstNode->getData();
 	Node<Type>* tempNode = firstNode;
 	firstNode = tempNode->getNext();
+	if (firstNode != nullptr) {
 	firstNode->setPrev(nullptr); 
+	}
 	delete tempNode;
 	s--;
 	return elem;
@@ -209,7 +213,9 @@ Type Deque<Type>::removeLast() {
 	Type elem = lastNode->getData();
 	Node<Type>* tempNode = lastNode;
 	lastNode = tempNode->getPrev();
+	if (lastNode != nullptr) {
 	lastNode->setNext(nullptr); 
+	}
 	delete tempNode;
 	s--;
 	return elem;
