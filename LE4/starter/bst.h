@@ -127,31 +127,30 @@ void BST<Type>::insert(Type key) {
 
 template <typename Type>
 BST_Node<Type>* BST<Type>::deleteRecursive(BST_Node<Type>* node, Type key) {
-    if (node == nullptr) {
-        return nullptr;
-    }
-    
-    if (node->key > key) {
-        deleteRecursive(node->left, key);
-    } else if (node->key < key) {
-        deleteRecursive(node->right, key);
-    } else { // at the node to remove
-        if (node->left == nullptr) {
-            BST_Node<Type>* temp = node->right;
-            delete node;
-            return temp;
-        } else if (node->right == nullptr) {
-            BST_Node<Type>* temp = node->left;
-            delete node;
-            return temp;
+if (node == nullptr) {
+            return nullptr;
         }
 
-        node->key = minValue(node->right);
+        if (key < node->key) {
+            node->left = deleteRecursive(node->left, key);
+        } else if (key > node->key) {
+            node->right = deleteRecursive(node->right, key);
+        } else { // Node to delete
+            if (node->left == nullptr) {
+                BST_Node<Type>* temp = node->right;
+                delete node;
+                return temp;
+            } else if (node->right == nullptr) {
+                BST_Node<Type>* temp = node->left;
+                delete node;
+                return temp;
+            }
 
-        node->right = deleteRecursive(node->right, node->key);
-    }
+            node->key = minValue(node->right);
+            node->right = deleteRecursive(node->right, node->key);
+        }
 
-    return node;
+        return node;
 
 }
 
