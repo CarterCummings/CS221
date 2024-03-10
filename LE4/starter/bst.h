@@ -71,30 +71,43 @@ BST<Type>::BST(){
 
 template <typename Type>
 BST_Node<Type>* BST<Type>::copyTree(BST_Node<Type>* originalNode) {
-    // Your implementation here
-    return nullptr;
+    if (originalNode == nullptr) {
+        return nullptr;
+    }
+    BST_Node<Type>* newTree = new BST_Node<Type>(originalNode->key);
+    newTree->left = copyTree(originalNode->left);
+    newTree->right = copyTree(originalNode->right);
+    
+    return newTree;
 }
 
 template <typename Type>
 BST<Type>::BST(const BST<Type>& other){
-    // Your implementation here
-    this->root = nullptr;
+    root = copyTree(other.root);
 }
 
 template <typename Type>
 BST<Type>& BST<Type>::operator=(const BST& other) {
-    // Your implementation here
+    if (this != &other){
+        clearTree(root);
+        root = copyTree(other.root);
+    }
     return *this;
 }
 
 template <typename Type>
 void BST<Type>::clearTree(BST_Node<Type>* node){
+    if (node != nullptr) {
+        clearTree(node->left);
+        clearTree(node->right);
+        delete node;
+    }
 
 }
 
 template <typename Type>
 BST<Type>::~BST(){
-    // Your implementation here
+    clearTree(root);
 }
 
 template <typename Type>
