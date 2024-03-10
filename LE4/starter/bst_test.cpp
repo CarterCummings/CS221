@@ -13,6 +13,7 @@ using namespace std;
 #define DEBUG 0
 
 int levelOrderPrint(BST<int>* bst) {
+
     int count = 0;
 
     if (DEBUG) {
