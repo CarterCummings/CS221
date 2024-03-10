@@ -109,11 +109,13 @@ int testInsert(BST<int>* bst, int n){
 
     for (int i = 0; i < n; ++i) {
         if (!bst->find(i + 1)) {
+            cout << "fails on " << i+1 << endl;
             return 0;
         }
     }
 
     if (!isValidBST(bst)) {
+        
         return 0;
     }
    
