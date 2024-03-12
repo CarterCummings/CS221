@@ -17,6 +17,7 @@ int testPqInsert(){
     for (int i = 0; i < n; i++) {
         int z = rand() % 200 + 25;
         pq.pq_insert(z);
+
         minNum = min(z, minNum);
     }
 
@@ -51,7 +52,7 @@ int testPqInsert(){
 int testPqEmpty() {
     PriorityQueueHeap<int> pq;
     int n = rand() % 5 + 3;
-
+    
     if (!pq.is_pq_empty()) {
         return 0;
     }
@@ -79,6 +80,7 @@ int testPqEmpty() {
 
 template <typename Compare = std::greater<int>>
 int testDelete(Compare compare = Compare()) {
+    
     PriorityQueueHeap<int, Compare> pq(compare);
     
     int n = rand() % 50 + 41;
@@ -86,12 +88,15 @@ int testDelete(Compare compare = Compare()) {
     int minNum = 1000;
     int maxNum = -1;
     std::vector<int> nums;
+
     for (int i = 0; i < n; i++) {
         int z = rand() % 200 + 25;
+       
         pq.pq_insert(z);
         minNum = min(z, minNum);
         maxNum = max(z, maxNum);
         nums.push_back(z);
+        
     }
 
     std::sort(nums.begin(), nums.end());
@@ -100,17 +105,18 @@ int testDelete(Compare compare = Compare()) {
         cout << "You have not passed insert; pass insert before you test delete" << endl;
         return 0;
     }
-
     int count;
     if constexpr (std::is_same<Compare, std::greater<int>>::value) {
         count = 0;
     } else {
         count = n - 1;
     }
-
+    
     while (!pq.is_pq_empty()) {
         int num = pq.pq_delete();
         if (num != nums[count]) {
+            cout << "num: " << num << endl;
+            cout << "last: " << nums[count] << endl;
             return 0;
         }
         if constexpr (std::is_same<Compare, std::greater<int>>::value) {
@@ -162,18 +168,20 @@ int testPqDeleteTopException() {
 int testPqCopyConstructor() {
     PriorityQueueHeap<int> pq;
     int n = rand() % 50 + 41;
-
+    
     std::vector<int> nums;
     for (int i = 0; i < n; i++) {
         int z = rand() % 200 + 25;
         pq.pq_insert(z);
         nums.push_back(z);
+        
     }
 
+    //
     std::sort(nums.begin(), nums.end());
 
     PriorityQueueHeap<int> pq2(pq);
-
+    
     int count = 0;
     while (!pq.is_pq_empty()) {
         int num = pq.pq_delete();
@@ -264,7 +272,6 @@ int main(){
             cout << "TEST PQ_INSERT PASSED" << endl;
         }
         score += temp_score;
-
         temp_score = testPqDelete();
         if (temp_score == 0) {
             cout << "TEST PQ_DELETE FAILED" << endl;
