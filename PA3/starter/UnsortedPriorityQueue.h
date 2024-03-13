@@ -26,12 +26,14 @@ class UnsortedPriorityQueue : public AbstractPriorityQueue<Type> {
 
 template <typename Type>
 UnsortedPriorityQueue<Type>::UnsortedPriorityQueue() {
-    
+    capacity = 10;
+    size = 0;
+    arr = new Type[capacity];    
 }
 
 template <typename Type>
 UnsortedPriorityQueue<Type>::~UnsortedPriorityQueue(){
-    
+    delete[] arr;
 }
 
 template <typename Type>
@@ -46,12 +48,15 @@ Type UnsortedPriorityQueue<Type>::pq_delete(){
 
 template <typename Type>
 Type UnsortedPriorityQueue<Type>::pq_get_min(){
-    return Type();
+    if (size == 0) {
+        throw std::out_of_range("its empty");
+    }
+    return arr[0];
 }
 
 template <typename Type>
 int UnsortedPriorityQueue<Type>::pq_size(){
-    return -1;
+    return size;
 }
 
 #endif
