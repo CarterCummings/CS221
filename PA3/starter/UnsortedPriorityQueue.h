@@ -38,12 +38,28 @@ UnsortedPriorityQueue<Type>::~UnsortedPriorityQueue(){
 
 template <typename Type>
 void UnsortedPriorityQueue<Type>::pq_insert(Type value) {
-    
+    if(size == capacity) {
+        capacity *= 2;
+        Type* temp_arr = new Type[capacity];
+        for(int i = 0; i < size ; i++ ) {
+            temp_arr[i] = arr[i];
+        }
+        delete[] arr;
+        arr = temp_arr;
+    }
+    arr[size] = value;
+    size++;    
 }
 
 template <typename Type>
 Type UnsortedPriorityQueue<Type>::pq_delete(){
-    return Type();
+    if (size == 0) {
+        throw std::out_of_range("its empty");
+    }
+    Type top = arr[0];
+    arr[0] = arr[size - 1];
+    size--;
+    return top;
 }
 
 template <typename Type>
@@ -51,7 +67,13 @@ Type UnsortedPriorityQueue<Type>::pq_get_min(){
     if (size == 0) {
         throw std::out_of_range("its empty");
     }
-    return arr[0];
+    Type min = arr[0];
+    for(int i = 0; i < size; i++){
+        if (arr[i] < min) {
+            min = arr[i];
+        }
+    }
+    return min;
 }
 
 template <typename Type>
