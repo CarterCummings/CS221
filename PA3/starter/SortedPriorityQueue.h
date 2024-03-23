@@ -38,12 +38,37 @@ SortedPriorityQueue<Type>::~SortedPriorityQueue(){
 
 template <typename Type>
 void SortedPriorityQueue<Type>::pq_insert(Type value) {
-    
+    if(size == capacity) {
+        capacity *= 2;
+        Type* temp_arr = new Type[capacity];
+        for(int i = 0; i < size ; i++ ) {
+            temp_arr[i] = arr[i];
+        }
+        delete[] arr;
+        arr = temp_arr;
+    }
+    int i = 0;
+    while(value > arr[i] && i < size){
+        i++;
+    }
+    for(int j = size; j > i ; j--) {
+        arr[j] = arr[j - 1];
+    }
+    arr[i] = value;
+    size++;   
 }
 
 template <typename Type>
 Type SortedPriorityQueue<Type>::pq_delete(){
-    return Type();
+    if (size == 0) {
+        throw std::out_of_range("its empty");
+    }
+    Type top = arr[0];
+    for(int i = 0; i< size; i++ ) {
+        arr[i] = arr[i+1];
+    }
+    size--;
+    return top;
 }
 
 template <typename Type>

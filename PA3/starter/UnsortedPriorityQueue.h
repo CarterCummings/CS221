@@ -56,10 +56,20 @@ Type UnsortedPriorityQueue<Type>::pq_delete(){
     if (size == 0) {
         throw std::out_of_range("its empty");
     }
-    Type top = arr[0];
-    arr[0] = arr[size - 1];
+    
+    Type min = arr[0];
+    int minIndex = 0;
+    for (int i = 0; i < size; i++) {
+        if(arr[i] < min){
+            min = arr[i];
+            minIndex = i;
+        }
+    }
+    for (int i = minIndex; i < size; i++) {
+        arr[i] = arr[i+1];
+    }
     size--;
-    return top;
+    return min;
 }
 
 template <typename Type>
