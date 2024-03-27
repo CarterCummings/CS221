@@ -45,18 +45,37 @@ LRUCache::LRUCache(int maxSize){
 }
 
 void LRUCache::insertKeyValue(string key,int value){
-   // Your implementation here
+        if (m.find(key) != m.end()) {
+            auto it = m[key];
+            it->value = value;
+            l.splice(l.begin(), l, it);
+        } else {
+            if (l.size() >= maxSize) {
+                m.erase(l.back().key);
+                l.pop_back();
+            }
+            l.push_front(Node(key,value));
+            m[key] = l.begin();
+        }
 }
 
 int* LRUCache::getValue(string key){
-    // Your implementation here
+	if (m.find(key) != m.end()) {
+		auto it = m[key];
+		l.push_front(Node(key,it->value));
+		l.erase(it);
+		return &it->value;
+	}
     return nullptr;
 
 }
 
 string LRUCache::mostRecentKey(){
-    // Your implementation here
-	return "";
+	if (l.size() == 0 ) {
+		return "";
+	} else {
+	return l.front().key;
+	}
 }
 
 #endif
