@@ -32,11 +32,13 @@ int testHashTableInsert(AbstractHashTable* aht, std::unordered_map<string, int>&
             actualMap[word] = 1;
         }
     }
-
+    
     for (auto it = actualMap.cbegin(); it != actualMap.cend(); it++) {
-       if (actualMap[it->first] != aht->get(it->first)) {
+        if (actualMap[it->first] != aht->get(it->first)) {
+            cout << "act: " << actualMap[it->first] << " get: " << aht->get(it->first) << endl;
             return 0;
-       }
+        }
+        test1++;
     }
 
     if (actualMap.size() != aht->getSize()) {
