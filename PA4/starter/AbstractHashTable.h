@@ -63,7 +63,7 @@ int AbstractHashTable::hash(std::string s) const {
 	unsigned long hash = 0;
 	int n = s.length();
 	for (int i = 0; i < n; i++) {
-		hash = 37 * hash + (s[i]-'0'); // 10 is a random value? now its 37 dont understand why but google says 37
+		hash = 37 * hash + (s[i] - '0'); // 10 is a random value? now its 37 dont understand why but google says 37
 	}
 	return (hash % capacity);
 }
@@ -73,6 +73,7 @@ int AbstractHashTable::getSize() const {
 }
 
 float AbstractHashTable::load_factor() const {
+	//cout << "num: " << num_elements << " cap: " << capacity << endl;
 	return num_elements / capacity;
 }
 

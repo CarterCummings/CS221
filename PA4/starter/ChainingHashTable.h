@@ -28,7 +28,7 @@ class ChainingHashTable: public AbstractHashTable {
 ChainingHashTable::ChainingHashTable(): AbstractHashTable() {
     capacity = 11;
     num_elements = 0;
-    maxLoadFactor = 3; // This is a made up number!! refine?
+    maxLoadFactor = 1.2; // This is a made up number!! refine? i hath refined. .9 to 1.2 seems best
     table.resize(capacity);
 }
 
@@ -40,9 +40,12 @@ void ChainingHashTable::insert(std::string key, int val) {
     if (load_factor() > maxLoadFactor) {
         resizeAndRehash();
     }
-    
+
+    if(!contains(key)) {
+        num_elements++;
+    }
     table[hash(key)].emplace_front(key,val);
-    num_elements++;
+    
 }
 
 // removes the given key from the hash table - if the key is not in the list, throw an error
@@ -50,9 +53,16 @@ int ChainingHashTable::remove(std::string key) {
 	if (!contains(key)) {
         throw std::out_of_range("key not found remove");
     }
-    int ret = table[hash(key)].front().val;
-    table[hash(key)].pop_front();
-    num_elements--;
+    int index = hash(key);
+    int ret;
+    for(list<AbstractHashTable::HashEntry>::iterator it = table[index].begin(); it != table[index].end(); ++it) {
+        if(it->key == key) {
+            ret = it->val;
+            table[index].erase(it);
+            num_elements--; 
+            break; 
+        }
+    }
     return ret;
 }
 
@@ -61,7 +71,15 @@ int ChainingHashTable::get(std::string key) const {
 	if (!contains(key)) {
         throw std::out_of_range("key not found get");
     }
-    return table[hash(key)].front().val;
+    int index = hash(key);
+    for(const auto& elm : table[index]) {
+        if(elm.key == key) {
+            return elm.val;
+            
+        }
+    }
+    throw std::out_of_range("Uh oh");
+
 }
 
 bool ChainingHashTable::contains(const std::string key) const {
@@ -84,6 +102,7 @@ void ChainingHashTable::resizeAndRehash() {
     for (int i = 0; i < cap; i++) {
             for (const auto& elm : table[i]) {
                 newTable[hash(elm.key)].push_back(elm);
+
                 num_elements++;
             }
         }
