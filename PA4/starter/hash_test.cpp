@@ -31,6 +31,19 @@ int testHashTableInsert(AbstractHashTable* aht, std::unordered_map<string, int>&
         } else {
             actualMap[word] = 1;
         }
+        /* For Testing how the data is diverging
+        if((aht->getSize() - prevSize) != (actualMap.size() - prevMap)) {
+            badCNT++;
+            cout << "Size: " << aht->getSize() << " Prev: " << prevSize << endl;
+            cout << "Map: " << actualMap.size() << " Prev: " << prevMap << endl;
+            cout << "Increase by: " << aht->getSize() - prevSize << endl << endl;
+
+        }
+
+        prevSize = aht->getSize();
+        prevMap = actualMap.size();
+
+        */
     }
 
     for (auto it = actualMap.cbegin(); it != actualMap.cend(); it++) {
@@ -41,7 +54,6 @@ int testHashTableInsert(AbstractHashTable* aht, std::unordered_map<string, int>&
     }
 
     if (actualMap.size() != aht->getSize()) {
-        cout << "act: " << actualMap.size() << " get: " << aht->getSize() << endl;  
         return 0;
     }
 

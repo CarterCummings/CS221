@@ -28,7 +28,7 @@ class ChainingHashTable: public AbstractHashTable {
 ChainingHashTable::ChainingHashTable(): AbstractHashTable() {
     capacity = 11;
     num_elements = 0;
-    maxLoadFactor = 1.2; // This is a made up number!! refine? i hath refined. .9 to 1.2 seems best
+    maxLoadFactor = 1.25; // This is a made up number!! refine? i hath refined. .9 to 1.25 seems best
     table.resize(capacity);
 }
 
@@ -43,8 +43,16 @@ void ChainingHashTable::insert(std::string key, int val) {
 
     if(!contains(key)) {
         num_elements++;
+        table[hash(key)].emplace_front(key,val);
     }
-    table[hash(key)].emplace_front(key,val);
+    int index = hash(key);
+    for(list<AbstractHashTable::HashEntry>::iterator it = table[index].begin(); it != table[index].end(); ++it) {
+        if(it->key == key) {
+            table[index].erase(it);
+            table[index].emplace_front(key,val);
+            break; 
+        }
+    }
     
 }
 
@@ -102,7 +110,6 @@ void ChainingHashTable::resizeAndRehash() {
     for (int i = 0; i < cap; i++) {
             for (const auto& elm : table[i]) {
                 newTable[hash(elm.key)].push_back(elm);
-
                 num_elements++;
             }
         }

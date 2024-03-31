@@ -27,7 +27,10 @@ class DoubleHashTable : public AbstractHashTable {
 
 // constructor 
 DoubleHashTable::DoubleHashTable(): AbstractHashTable() {
-	
+    capacity = 11;
+    num_elements = 0;
+    maxLoadFactor = .6; 
+    table.resize(capacity);
 }
 
 // destructor

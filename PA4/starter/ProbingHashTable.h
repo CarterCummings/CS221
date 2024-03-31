@@ -23,7 +23,10 @@ class ProbingHashTable : public AbstractHashTable {
 
 // constructor 
 ProbingHashTable::ProbingHashTable(): AbstractHashTable() {
-	
+    capacity = 11;
+    num_elements = 0;
+    maxLoadFactor = .6; 
+    table.resize(capacity);
 }
 
 // destructor
