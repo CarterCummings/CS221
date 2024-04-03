@@ -5,22 +5,22 @@
 #include <vector>
 
 // Double hashing hash table class
-class DoubleHashTable : public AbstractHashTable {
-    private:
-    // helper functions
-    int secondHash(std::string s) const;
-    std::vector<HashEntry> table;
-    int prevPrime;
-    void resizeAndRehash();
+    class DoubleHashTable : public AbstractHashTable {
+        private:
+        // helper functions
+        int secondHash(std::string s) const;
+        std::vector<HashEntry> table;
+        int prevPrime;
+        void resizeAndRehash();
 
-    public: 
-    DoubleHashTable();
-    ~DoubleHashTable(); 
-    void insert(std::string key, int val); 
-    int remove(std::string key); 
-    int get(std::string key) const; 
-    bool contains(std::string key) const;
-};
+        public: 
+        DoubleHashTable();
+        ~DoubleHashTable(); 
+        void insert(std::string key, int val); 
+        int remove(std::string key); 
+        int get(std::string key) const; 
+        bool contains(std::string key) const;
+    };
 
 
 ///////////////////// TODO: FILL OUT THE FUNCTIONS /////////////////////
@@ -29,7 +29,7 @@ class DoubleHashTable : public AbstractHashTable {
 DoubleHashTable::DoubleHashTable(): AbstractHashTable() {
     capacity = 11;
     num_elements = 0;
-    maxLoadFactor = .6; 
+    maxLoadFactor = .7; 
     table.resize(capacity);
 }
 
@@ -40,7 +40,9 @@ DoubleHashTable::~DoubleHashTable() {
 
 // inserts the given string key
 void DoubleHashTable::insert(std::string key, int val) {
-	
+    if (load_factor() > maxLoadFactor) {
+        resizeAndRehash();
+    }
 }
 
 // removes the given key from the hash table - if the key is not in the list, throw an error

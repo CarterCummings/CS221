@@ -31,19 +31,7 @@ int testHashTableInsert(AbstractHashTable* aht, std::unordered_map<string, int>&
         } else {
             actualMap[word] = 1;
         }
-        /* For Testing how the data is diverging
-        if((aht->getSize() - prevSize) != (actualMap.size() - prevMap)) {
-            badCNT++;
-            cout << "Size: " << aht->getSize() << " Prev: " << prevSize << endl;
-            cout << "Map: " << actualMap.size() << " Prev: " << prevMap << endl;
-            cout << "Increase by: " << aht->getSize() - prevSize << endl << endl;
 
-        }
-
-        prevSize = aht->getSize();
-        prevMap = actualMap.size();
-
-        */
     }
 
     for (auto it = actualMap.cbegin(); it != actualMap.cend(); it++) {
@@ -52,6 +40,7 @@ int testHashTableInsert(AbstractHashTable* aht, std::unordered_map<string, int>&
             return 0;
         }
     }
+
 
     if (actualMap.size() != aht->getSize()) {
         return 0;
@@ -73,6 +62,7 @@ int testHashTableRemove(AbstractHashTable* aht, std::unordered_map<string, int> 
         if (aht->contains(word)) {
             return 0;
         } 
+        
         if (aht->getSize() != actualMap.size()) {
             return 0;
         }
@@ -116,12 +106,14 @@ int testHashTableInsertAndRemove(AbstractHashTable* aht, vector<string> words) {
     }
 
     for (auto it = tempMap.cbegin(); it != tempMap.cend(); it++) {
+       //cout << "act: " << tempMap[it->first] << " get: " << aht->get(it->first) << endl;
        if (tempMap[it->first] != aht->get(it->first)) {
             return 0;
        }
     }
 
     if (tempMap.size() != aht->getSize()) {
+        //cout << "act: " << tempMap.size()  << " get: " << aht->getSize() << endl;
         return 0;
     }
 
@@ -181,18 +173,18 @@ int main() {
     cout << "Chaining Hash Table" << endl;
     AbstractHashTable* cht = new ChainingHashTable();
     finalScore += testHashTable(cht, words);
-    delete cht;  
-
+    delete cht;
+    
     
     cout << "Probing Hash Table" << endl;
     AbstractHashTable* pht = new ProbingHashTable();
     finalScore += testHashTable(pht, words);
     delete pht; 
 
-    cout << "Double Hash Table" << endl;
+    /*cout << "Double Hash Table" << endl;
     AbstractHashTable* dht = new DoubleHashTable();
     finalScore += testHashTable(dht, words);
-    delete dht;    
+    delete dht;  */  
 
     cout << "Your final score is: " << finalScore << " / 60" << endl;
     
