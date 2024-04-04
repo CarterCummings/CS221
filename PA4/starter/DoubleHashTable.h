@@ -46,6 +46,7 @@ void DoubleHashTable::insert(std::string key, int val) {
     }
     bool cont = contains(key);
     int index = hash(key);
+    int step = secondHash(key);
 
     while(1){
         if (!cont && (!table[index].isFilled || table[index].DELETED)) {
@@ -61,23 +62,19 @@ void DoubleHashTable::insert(std::string key, int val) {
             table[index].isFilled = true;
             break;
         }
-
-
-        index += secondHash(key);
+        index += step;
         if(index >= capacity) {
             index = index % capacity;
         }
     }
 
-    
 }
 
 // removes the given key from the hash table - if the key is not in the list, throw an error
 int DoubleHashTable::remove(std::string key) {
-	cout << "new insert" << endl;
     int index = hash(key);
     int start = index;
-
+    int step = secondHash(key);
     do {
         if(table[index].key == key && !table[index].DELETED) {
             table[index].DELETED = true;
@@ -90,8 +87,8 @@ int DoubleHashTable::remove(std::string key) {
         } else if (!table[index].isFilled && !table[index].DELETED) {
             throw std::out_of_range("no key found");
         }
-
-        index += secondHash(key);
+        
+        index += step;
         if(index >= capacity) {
             index = index % capacity;
         }
@@ -142,6 +139,7 @@ bool DoubleHashTable::contains(std::string key) const {
 void DoubleHashTable::resizeAndRehash() {
     int cap = capacity;
     capacity *= 2;
+    capacity = findNextPrime(capacity);  // does cap need to be prime
     num_elements = 0;
     int index;
 
@@ -180,10 +178,9 @@ int DoubleHashTable::secondHash(std::string s) const {
 	unsigned long hash = 0;
 	int n = s.length();
 	for (int i = 0; i < n; i++) {
-		hash = 37 * hash + (s[i] - '0');
+		hash = 31 * hash + (s[i] - '0');
 	}
-    //cout << "Prime: " << prevPrime << endl;
-	return prevPrime - (hash % prevPrime);
+	return 31 - (hash % 31);
 }
 
 

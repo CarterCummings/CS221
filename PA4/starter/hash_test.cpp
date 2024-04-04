@@ -170,7 +170,7 @@ int main() {
     }
 
     int finalScore = 0;
-    /*cout << "Chaining Hash Table" << endl;
+    cout << "Chaining Hash Table" << endl;
     AbstractHashTable* cht = new ChainingHashTable();
     finalScore += testHashTable(cht, words);
     delete cht;
@@ -179,7 +179,7 @@ int main() {
     cout << "Probing Hash Table" << endl;
     AbstractHashTable* pht = new ProbingHashTable();
     finalScore += testHashTable(pht, words);
-    delete pht; */
+    delete pht;
 
     cout << "Double Hash Table" << endl;
     AbstractHashTable* dht = new DoubleHashTable();

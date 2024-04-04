@@ -4,5 +4,20 @@
 #include "DoubleHashTable.h"
 
 int main() {
-    return 0;
+
+    AbstractHashTable* cht = new ChainingHashTable();
+
+    delete cht;
+    
+    
+
+    AbstractHashTable* pht = new ProbingHashTable();
+
+    delete pht;
+
+
+    AbstractHashTable* dht = new DoubleHashTable();
+    
+    
+    delete dht;
 }

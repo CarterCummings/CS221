@@ -82,7 +82,6 @@ int AbstractHashTable::findNextPrime(int n) const {
 	while(!isPrime(i)) {
 		++i;
 	}
-
 	return i;
 }
 
