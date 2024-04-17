@@ -32,9 +32,8 @@ int testSort(SORT_TYPE sort_type, int n) {
     } else if (sort_type == SORT_TYPE::INSERTION_SORT) {
        insertionSort(arr, n);
     }
-
     auto end = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double> elapsed = end - start;
+    std::chrono::duration<double> elapsed = end - start; 
     for(int i=0; i<n; i++){
         if (arrCopy[i] != arr[i]) {
             cout << "Failed" << endl;
