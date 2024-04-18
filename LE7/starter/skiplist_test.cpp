@@ -134,6 +134,8 @@ int main() {
         cout << e.what() << endl;
     }
 
+    
+
     cout << "Score: " << score << " / 20" << endl;
     return 0;
 }

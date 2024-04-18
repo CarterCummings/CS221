@@ -37,23 +37,94 @@ SkipList::SkipList(int max_lvl, double p) : MAXLVL(max_lvl), P(p), level(0) {
 }
 
 SkipList::~SkipList() {
-   
+    delete header;
 } 
 
 int SkipList::randomLevel() {
-    return -1;
+    int lvl = 0;
+    while ((double)rand() / RAND_MAX < P && lvl < MAXLVL) {
+        lvl++;
+    }    
+    
+    return lvl;
 }
 
 void SkipList::insertElement(int key) {
-    
+        Node* update[MAXLVL + 1];
+        Node* currNode = header;
+
+        // Find the appropriate position to insert
+        for (int i = level; i >= 0; i--) {
+            while (currNode->forward[i] != nullptr && currNode->forward[i]->key < key) {
+                currNode = currNode->forward[i];
+            }
+            update[i] = currNode;
+        }
+
+        currNode = currNode->forward[0];
+
+        // If key is not present, insert it
+        if (currNode == nullptr || currNode->key != key) {
+            int newLevel = randomLevel();
+
+            if (newLevel > level) {
+                for (int i = level + 1; i <= newLevel; i++) {
+                    update[i] = header;
+                }
+                level = newLevel;
+            }
+
+            Node* newNode = new Node(key, newLevel);
+
+            for (int i = 0; i <= newLevel; i++) {
+                newNode->forward[i] = update[i]->forward[i];
+                update[i]->forward[i] = newNode;
+            }
+        }
+
 }
 
 void SkipList::deleteElement(int search_key) {
-    
+        Node* update[MAXLVL + 1];
+        Node* currNode = header;
+
+        for (int i = level; i >= 0; i--) {
+            while (currNode->forward[i] != nullptr && currNode->forward[i]->key < search_key) {
+                currNode = currNode->forward[i];
+            }
+            update[i] = currNode;
+        }
+
+        currNode = currNode->forward[0];
+
+        if (currNode != nullptr && currNode->key == search_key) {
+            for (int i = 0; i <= level; i++) {
+                if (update[i]->forward[i] != currNode)
+                    break;
+                update[i]->forward[i] = currNode->forward[i];
+            }
+
+            delete currNode;
+
+            // Update the level of the list
+            while (level > 0 && header->forward[level] == nullptr) {
+                level--;
+            }
+        } 
 }
 
 bool SkipList::searchElement(int key) {
-    return false;
+    Node* currNode = header;
+
+    for (int i = level; i >= 0; i--) {
+        while (currNode->forward[i] != nullptr && currNode->forward[i]->key < key) {
+            currNode = currNode->forward[i];
+        }
+    }
+
+    currNode = currNode->forward[0];
+
+    return currNode != nullptr && currNode->key == key;
 }
 
 void SkipList::displayList() {

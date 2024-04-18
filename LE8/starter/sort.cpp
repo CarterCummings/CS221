@@ -4,43 +4,42 @@
 using namespace std;
 
 void radixSort(int *arr, int n) {
+    int maxNum = *max_element(arr, arr + n);
+    for (int exp = 1; maxNum / exp > 0; exp *= 10){
+        int temparr[n];
+        int bucket[10] = {0};
 
+        for (int i = 0; i < n; i++) {
+            bucket[(arr[i] / exp) % 10]++;
+        }
+
+        for (int i = 1; i < 10; i++) {
+            bucket[i] += bucket[i - 1];
+        }
+
+        for (int i = n - 1; i >= 0; i--) {
+            temparr[bucket[(arr[i] / exp) % 10] - 1] = arr[i];
+            bucket[(arr[i] / exp) % 10]--;
+        }
+
+        for (int i = 0; i < n; i++) {   
+            arr[i] = temparr[i];
+        }
+    }
 }
 
 
 void insertionSort(int *arr, int n) {
     if(n == 0) {throw std::out_of_range("its empty");} 
-    int temparr[n];
-    int length = 0;
-    bool found;
+    
+    SortedPriorityQueue<int> pq;
+
     for(int i = 0; i < n; i++) {
-        if(i == 0) {
-            temparr[0] = arr[i];
-        } else {
-            found = false;
-
-            for (int j = 0; j < length; j++) {
-                if (temparr[j] > arr[i]) {
-                    // shift
-                    for(int k = length; k >= j; k--) {
-                        temparr[k] = temparr[k - 1];
-                        
-                    }
-                    temparr[j] = arr[i];
-                    // insert
-                    found = true;
-                    break;
-                }
-            }
-            if(!found) {
-                temparr[length] = arr[i];
-            }
-
-        }
-        length++;
+        pq.pq_insert(arr[i]);
     }
+
     for(int i = 0; i < n; i++) {
-        arr[i] = temparr[i];
+        arr[i] = pq.pq_delete();
     }
     
 }
