@@ -9,6 +9,8 @@
 
 using namespace std;
 
+#define ELMS 10000
+
 enum SORT_TYPE {
     BUBBLE_SORT,
     HEAP_SORT,
@@ -62,16 +64,16 @@ int main(){
    
     try {
         cout << "Testing Bubble Sort:" << endl;
-        finalScore += testSort(SORT_TYPE::BUBBLE_SORT, 100000);
+        finalScore += testSort(SORT_TYPE::BUBBLE_SORT, ELMS);
 
         cout << "Testing Heap Sort:" << endl;
-        finalScore += testSort(SORT_TYPE::HEAP_SORT, 1000000);
+        finalScore += testSort(SORT_TYPE::HEAP_SORT, ELMS * 10);
 
         cout << "Testing Merge Sort:" << endl;
-        finalScore += testSort(SORT_TYPE::MERGE_SORT, 1000000);
+        finalScore += testSort(SORT_TYPE::MERGE_SORT, ELMS * 10);
 
         cout << "Testing Quick Sort:" << endl;
-        finalScore += testSort(SORT_TYPE::QUICK_SORT, 1000000);
+        finalScore += testSort(SORT_TYPE::QUICK_SORT, ELMS * 10);
     } catch(std::exception& e) {
         cout << e.what() << endl;
     }
