@@ -9,7 +9,7 @@
 
 using namespace std;
 
-#define ELMS 10000
+#define ELMS 100000
 
 enum SORT_TYPE {
     BUBBLE_SORT,

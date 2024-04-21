@@ -22,8 +22,8 @@ void bubbleSort(int *arr, int size){
 
 void heapify(int *arr, int size, int i) {
     int largest = i; // root
-    int lft = 2 * i + 1; // left node
-    int rgt = 2 * i + 2; // right node
+    int lft = 2 * i + 1; // start node
+    int rgt = 2 * i + 2; // end node
 
     if (lft < size && arr[lft] > arr[largest]) {
         largest = lft;
@@ -50,15 +50,56 @@ void heapSort(int *arr, int size){
 }
 
 void mergearr(int *arr, int start, int middle, int end) {
+    int arrOne = middle - start + 1;
+    int arrTwo = end - middle;
 
+    int *startArr = new int[arrOne];
+    int *endArr = new int[arrTwo];
+
+    for (int i = 0; i < arrOne; i++) {
+        startArr[i] = arr[start + i];
+    }
+    for (int j = 0; j < arrTwo; j++) {
+        endArr[j] = arr[middle + 1 + j];
+    }
+
+    int IarrOne = 0; 
+    int IarrTwo = 0;
+    int ImergedArr = start;
+
+    while (IarrOne < arrOne && IarrTwo < arrTwo) {
+        if (startArr[IarrOne] <= endArr[IarrTwo]) {
+            arr[ImergedArr] = startArr[IarrOne];
+            IarrOne++;
+        }
+        else {
+            arr[ImergedArr] = endArr[IarrTwo];
+            IarrTwo++;
+        }
+        ImergedArr++;
+    }
+
+    while (IarrOne < arrOne) {
+        arr[ImergedArr] = startArr[IarrOne];
+        IarrOne++;
+        ImergedArr++;
+    }
+
+    while (IarrTwo < arrTwo) {
+        arr[ImergedArr] = endArr[IarrTwo];
+        IarrTwo++;
+        ImergedArr++;
+    }
+    delete[] startArr;
+    delete[] endArr;
 }
 
 void mergeSort(int * arr, int start, int end) {
-    if (start >= end) { return; }
+    if (start >= end) { return; } // checking for end case / invalid case
 
     int middle = start + (end - start) / 2;
-    mergeSort(arr, start, middle);
-    mergeSort(arr, middle + 1, end);
+    mergeSort(arr, start, middle); // first half
+    mergeSort(arr, middle + 1, end); // second half
     mergearr(arr, start, middle, end);
 }
 
