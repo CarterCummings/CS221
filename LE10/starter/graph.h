@@ -4,7 +4,9 @@
 #include <climits>
 #include <queue>
 #include <unordered_set>
+#include <string>
 using namespace std;
+
 
 class Graph {
     private:
@@ -37,12 +39,42 @@ class Graph {
 
         vector<pair<int, int>> dijkstra(int startNode) {
             vector<pair<int, int>> p(n);
+            vector<bool> visited(n);
+            for(int i = 0; i < n; i++) { // set all distances to INF and paths to -1
+                p[i].first = numeric_limits<int>::infinity();
+                p[i].second = -1;
+            }
+            
+            p[startNode].first = 0;
+            int currNode = startNode;
+
+
+            
+            visited[currNode] = true;
+            // Update paths
+            for(list<Edge>::iterator it = v[currNode].begin(); it != v[currNode].end(); it++) { // for each edge of curr node
+                if (p[currNode].first + it->second < p[it->first].first ) {// if new distance is less than curr update it
+                    p[it->first].first = p[currNode].first + it->second;
+                    p[it->first].second = currNode;
+                    break;
+                }
+            }
+
+            // next node 
+            // use PQ for next node to visit 
+
             return p;
-        }
+        } 
 
         string printShortestPath(int startNode, int endNode) {
-           
-           return to_string();
+            vector<pair<int, int>> paths = dijkstra(startNode);
+            string ret = "";
+            int currLocation = endNode;
+            do {
+                ret  = (to_string(currLocation) + " ") + ret;
+                currLocation = paths[endNode].second;
+            } while(currLocation != startNode); 
+            return ret;
         }
 };
 
