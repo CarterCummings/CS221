@@ -7,6 +7,7 @@
 #include <string>
 using namespace std;
 
+#define INF 2147000000
 
 class Graph {
     private:
@@ -39,29 +40,31 @@ class Graph {
 
         vector<pair<int, int>> dijkstra(int startNode) {
             vector<pair<int, int>> p(n);
-            vector<bool> visited(n);
+
+            priority_queue< pair<int,int> > pq;
+
             for(int i = 0; i < n; i++) { // set all distances to INF and paths to -1
-                p[i].first = numeric_limits<int>::infinity();
+                p[i].first = INF;
                 p[i].second = -1;
             }
-            
+
             p[startNode].first = 0;
             int currNode = startNode;
+            pq.push(make_pair(0,startNode));
 
+            while(!pq.empty()) {
+                currNode = pq.top().second;
+                pq.pop();
+                // Update paths
+                for(list<Edge>::iterator it = v[currNode].begin(); it != v[currNode].end(); it++) { // for each edge of curr node
 
-            
-            visited[currNode] = true;
-            // Update paths
-            for(list<Edge>::iterator it = v[currNode].begin(); it != v[currNode].end(); it++) { // for each edge of curr node
-                if (p[currNode].first + it->second < p[it->first].first ) {// if new distance is less than curr update it
-                    p[it->first].first = p[currNode].first + it->second;
-                    p[it->first].second = currNode;
-                    break;
+                    if (p[currNode].first + it->second < p[it->first].first ) {// if new distance is less than curr update it
+                        p[it->first].first = p[currNode].first + it->second;
+                        p[it->first].second = currNode;
+                        pq.push(make_pair(p[currNode].first + it->second,it->first));
+                    }
                 }
             }
-
-            // next node 
-            // use PQ for next node to visit 
 
             return p;
         } 
@@ -70,10 +73,11 @@ class Graph {
             vector<pair<int, int>> paths = dijkstra(startNode);
             string ret = "";
             int currLocation = endNode;
-            do {
-                ret  = (to_string(currLocation) + " ") + ret;
-                currLocation = paths[endNode].second;
-            } while(currLocation != startNode); 
+            while(currLocation != -1 && paths[currLocation].first < INF) {
+                ret = to_string(currLocation) + " " + ret;
+                currLocation = paths[currLocation].second;
+            }
+
             return ret;
         }
 };

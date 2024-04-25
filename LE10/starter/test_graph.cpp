@@ -68,6 +68,7 @@ int testShortestPathConnectedGraph() {
     g.addEdge(7, 8, 7);
 
     string path1 = g.printShortestPath(0, 1);
+    
     string expectedPath1 = "0 1 ";
     if (comparePaths(path1, expectedPath1) == 0) {
         return 0;
