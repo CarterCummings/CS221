@@ -150,8 +150,10 @@ int testPrims() {
         int w = get<2>(edges[i]);
         g.addEdge(v, u, w);
     }
-   
+    
+
     if (sumWeights(g) != 46) {
+
         cout << "Total cost of minimum spanning tree failed" << endl;
         return 0;
     }
